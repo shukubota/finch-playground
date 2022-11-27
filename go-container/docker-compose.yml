@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  app:
+    platform: linux/amd64
+    build: .
+    tty: true
+    stdin_open: true
+    entrypoint: ash
+    working_dir: /var/work/go-container
+    user: root
+#    user: 1000:1000
+    volumes:
+#      - .:/var/work/go-container
+#      - go-volumes:/var/work/go-container
+      - type: bind
+        source: .
+        target: /var/work/go-container
+#volumes:
+#  go-volumes:
