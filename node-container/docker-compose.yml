@@ -3,9 +3,9 @@ version: '3'
 services:
   app:
     build: .
-    tty: true
-    stdin_open: true
-    entrypoint: bash
+#    tty: true
+#    stdin_open: true
+#    entrypoint: bash
     working_dir: /root/app
     ports:
       - "6006:6006"
@@ -15,6 +15,25 @@ services:
 #      - /home/app/dist
       - node_modules_volume:/root/app/node_modules
       - dist_volume:/root/app/dist
+  mysql:
+    platform: linux/amd64
+#    tty: true
+#    stdin_open: true
+#    entrypoint: bash
+    image: mysql:5.7
+    volumes:
+#      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/mysql
+#      - ./db/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
+#      - ./db/conf.d/log.cnf:/etc/mysql/conf.d/log.cnf
+#      - ./db/log:/var/log/mysql
+#    command:
+#      - --sql-mode=
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    user: 501:1000
 volumes:
   node_modules_volume: {}
   dist_volume: {}
