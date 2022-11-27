@@ -33,7 +33,7 @@ services:
       - "13306:3306"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    user: 501:1000
+    user: 1000:1000
 volumes:
   node_modules_volume: {}
   dist_volume: {}
