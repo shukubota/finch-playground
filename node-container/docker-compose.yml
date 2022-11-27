@@ -6,10 +6,15 @@ services:
     tty: true
     stdin_open: true
     entrypoint: bash
-    working_dir: /var/work
+    working_dir: /root/app
     ports:
       - "6006:6006"
     volumes:
-      - type: bind
-        source: .
-        target: /var/work
+      - .:/root/app
+#      - /home/app/node_modules
+#      - /home/app/dist
+      - node_modules_volume:/root/app/node_modules
+      - dist_volume:/root/app/dist
+volumes:
+  node_modules_volume: {}
+  dist_volume: {}
