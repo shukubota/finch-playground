@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  app:
+    platform: linux/amd64
+    build: .
+    shm_size: 256m
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8084:80"
+    environment:
+      SQS_ENDPOINT: http://localstack:4566
+    networks:
+      my_network:
+    depends_on:
+      - redis
+      - mysql
+  redis:
+    image: redis:3
+    networks:
+      my_network:
+    ports:
+      - "6379:6379"
+  mysql:
+    platform: linux/amd64
+    image: mysql:5.7
+    volumes:
+      - ./db/data:/var/lib/mysql
+    networks:
+      my_network:
+    ports:
+      - "13306:3306"
+    user: 1000:1000
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  localstack:
+    image: localstack/localstack:1.0.0
+    ports:
+      - "4566:4566"
+    networks:
+      - my_network
+
+networks:
+  my_network:
